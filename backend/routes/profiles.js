@@ -4,6 +4,7 @@ import asyncHandler from 'express-async-handler';
 import Profile from '../models/Profile.js';
 import User from '../models/User.js';
 import {check, validationResult} from 'express-validator';
+import request from 'request';
 
 //INITIALIZING OUR ROUTER
 const router = express.Router();
@@ -185,5 +186,95 @@ router.delete('/experience/:exp_id', auth, asyncHandler(async (req, res)=>{
 
 }))
 
+
+
+
+//@route  PUT/api/Profile/education
+//@desc   Add profile education
+//@access Private
+
+router.put('/education',[auth,
+    [
+    check('school','School is required')
+    .not()
+    .isEmpty(),
+    check('degree','Degree is required')
+    .not()
+    .isEmpty(),
+    check('fieldofstudy','Field of study is required')
+    .not()
+    .isEmpty(),
+    check('from','From date is required')
+    .not()
+    .isEmpty(),
+   ]], asyncHandler(async (req, res)=>{
+       const errors = validationResult(req);
+       if(!errors.isEmpty()){
+           return res.status(400).json({errors: errors.array()})
+       }
+       const {school, degree, fieldofstudy, from, to, current, description}= req.body;
+
+       const newEdu ={
+           school,
+           degree,
+           fieldofstudy,
+           from, 
+           to,
+           current,
+           description
+       }
+
+       const profile = await Profile.findOne({user: req.user.id});
+       profile.education.unshift(newEdu);
+
+       await profile.save();
+       
+       res.json(profile);
+}))
+
+
+//@route  DELETE/api/Profile/education/:edu_id
+//@desc   Delete education from profile
+//@access Private
+
+router.delete('/education/:edu_id', auth, asyncHandler(async (req, res)=>{
+
+   const profile = await Profile.findOne({user: req.user.id});
+
+   //Get remove index
+   const removeIndex = profile.education.map(item => item.id).indexOf(req.params.edu_id)
+
+   profile.education.splice(removeIndex, 1);
+
+   await profile.save();
+
+   res.json(profile)
+
+}));
+
+
+
+//@route  GET/api/Profile/github/:username
+//@desc   Get user repos from github
+//@access Public
+router.get('/github/:username', asyncHandler( (req, res)=>{
+    const options ={
+        uri: `https://api.github.com/users/${req.params.username}/repos?per_page=5&sort=created:asc&client_id=${process.env.GITHUB_CLIENT}&client_secret=${process.env.GITHUB_SECRET}`,
+
+        method: 'GET',
+        
+        headers: {'user-agent': 'node.js'}
+    };
+
+    request(options, (error, response, body)=>{
+        if(error) console.error(error);
+
+        if(response.statusCode !==200){
+            res.status(404).json({msg: 'No github profile found'})
+        }
+
+        res.json(JSON.parse(body));
+    })
+}))
 
 export default router;
