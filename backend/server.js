@@ -12,7 +12,7 @@ import {notFound, errorHandler} from './middleware/errorMiddleware.js';
  //DOTENV AND EXPRESS CONFIG
 const app = express();
 dotenv.config();
- const {PORT, NODE_ENV} = process.env;
+const {PORT, NODE_ENV} = process.env;
 
  //CONNECTION TO DATABASE
 connectDB();

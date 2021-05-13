@@ -4,7 +4,7 @@ import auth from '../middleware/auth.js';
 import asyncHandler from 'express-async-handler';
 import User from '../models/User.js';
 import Post from '../models/Post.js';
-import Profile from '../models/Profile.js';
+
 
 
 //INITIALIZING OUR ROUTER
