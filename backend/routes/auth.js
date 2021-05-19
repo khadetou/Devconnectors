@@ -12,7 +12,7 @@ const router = express.Router();
 
 
 //@route  GET/api/Auth
-//@desc   Test route
+//@desc   Get user
 //@access Public
 router.get('/',auth, async (req, res)=>{
     
@@ -32,7 +32,7 @@ router.get('/',auth, async (req, res)=>{
 
 
 //@route  POST/api/Auth
-//@desc   Authenticate user & get token
+//@desc   Login as user
 //@access Public
 router.post('/',[
     check('email','Enter a valid email').isEmail(),
