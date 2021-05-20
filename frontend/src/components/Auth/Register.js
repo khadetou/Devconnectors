@@ -1,8 +1,13 @@
 import React, { Fragment, useState } from 'react';
 import {Link} from 'react-router-dom';
-
-
+import {useDispatch, useSelector} from 'react-redux';
+import {setAlert} from '../../actions/alertAction';
 const Register = () => {
+
+const dispatch = useDispatch();
+const msgs = useSelector(state=>state.alert);
+
+
 const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -16,15 +21,20 @@ const onChange= (e) =>setFormData({...formData, [e.target.name]: e.target.value}
 const onSubmit = async(e)=>{
     e.preventDefault();
     if(password !== password2){
-        console.log('Passwords do not match');
+        dispatch(setAlert("Passwords don't match", "danger", 5000));
     }else{
         console.log('SUCCESS');
       //.text file is the axios way
     }
 }
+
+const alert = msgs.map(msg =>(<div key={msg.id} className={`alert alert-${msg.alertType}`}>{msg.msg}</div>));
+let lastItem = alert.length-1;
+
     return (
         <Fragment>
           <section className="container">
+              {alert[lastItem]}
           <h1 className="large text-primary">Sign Up</h1>
                 <p className="lead"><i className="fas fa-user"></i> Create Your Account</p>
                 <form className="form" onSubmit={e=>onSubmit(e)}>
