@@ -2,10 +2,13 @@ import React, { Fragment, useState } from 'react';
 import {Link} from 'react-router-dom';
 import {useDispatch, useSelector} from 'react-redux';
 import {setAlert} from '../../actions/alertAction';
+import {register} from '../../actions/authActions';
 const Register = () => {
 
 const dispatch = useDispatch();
 const msgs = useSelector(state=>state.alert);
+const auth = useSelector(state =>state.auth);
+
 
 
 const [formData, setFormData] = useState({
@@ -22,19 +25,27 @@ const onSubmit = async(e)=>{
     e.preventDefault();
     if(password !== password2){
         dispatch(setAlert("Passwords don't match", "danger", 5000));
+       
     }else{
-        console.log('SUCCESS');
       //.text file is the axios way
+      const data = {
+          name,
+          email,
+          password
+      }
+
+      dispatch(register(data));
+
     }
 }
-
-const alert = msgs.map(msg =>(<div key={msg.id} className={`alert alert-${msg.alertType}`}>{msg.msg}</div>));
-let lastItem = alert.length-1;
+  
+        const alert = msgs.map(msg =>(<div key={msg.id} className={`alert alert-${msg.alertType}`}>{msg.msg}</div>));
+         let lastItem = alert.length-1;
 
     return (
         <Fragment>
           <section className="container">
-              {alert[lastItem]}
+              {password!==password2? alert[lastItem]: alert}
           <h1 className="large text-primary">Sign Up</h1>
                 <p className="lead"><i className="fas fa-user"></i> Create Your Account</p>
                 <form className="form" onSubmit={e=>onSubmit(e)}>
@@ -45,7 +56,7 @@ let lastItem = alert.length-1;
                             name="name" 
                             value={name} 
                             onChange={(e=>onChange(e))}
-                            required />
+                             />
                     </div>
                     <div className="form-group">
                         <input 
@@ -54,7 +65,7 @@ let lastItem = alert.length-1;
                             name="email" 
                             value={email} 
                             onChange={(e=>onChange(e))}
-                            required
+                            
                             />
                         <small className="form-text">This site uses Gravatar so if you want a profile image, use a
                         Gravatar email</small>
@@ -64,7 +75,7 @@ let lastItem = alert.length-1;
                             type="password"
                             placeholder="Password"
                             name="password"
-                            minLength="6"
+                            
                             value={password} 
                             onChange={(e=>onChange(e))}
                             />
@@ -74,7 +85,7 @@ let lastItem = alert.length-1;
                             type="password"
                             placeholder="Confirm Password"
                             name="password2"
-                            minLength="6"
+                            
                             value={password2} 
                             onChange={(e=>onChange(e))}
                         />
