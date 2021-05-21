@@ -5,9 +5,13 @@ import Landing from './components/layout/Landing';
 import Navbar from './components/layout/Navbar';
 import Login from './components/Auth/Login';
 import Register from './components/Auth/Register';
+import Dashboard from './components/dashboard/Dashboard';
+import PrivateRoute from './components/routing/PrivateRoute';
+import CreateProfile from './components/profileForm/CreateProfile';
 import {loadUser} from './actions/authActions';
 import setAuthToken from './utils/setAuthToken';
 import {useDispatch} from 'react-redux';
+
 
 if(localStorage.token){
   setAuthToken(localStorage.token);
@@ -26,6 +30,8 @@ const App = ()=> {
       <Switch>
          <Route exact path="/login" component={Login} />
          <Route exact path="/register" component={Register}/>
+         <PrivateRoute exact path="/dashboard" component={Dashboard}/>
+         <Route exact path="/create-profile" component={CreateProfile}/>
       </Switch>
     </Fragment>)
 }

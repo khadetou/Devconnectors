@@ -10,7 +10,7 @@ const Login = () => {
 
 const dispacth = useDispatch();
 const msgs = useSelector(state=>state.alert);
-const auth = useSelector(state=>state.auth)
+const {isAuthenticated} = useSelector(state=>state.auth)
 
 const {email, password} = formData;
 
@@ -27,7 +27,7 @@ const alert = msgs.map(msg =>(<div key={msg.id} className={`alert alert-${msg.al
 
 
 //Redirect if logge in 
-if(auth.isAuthenticated){
+if(isAuthenticated){
   return <Redirect to= '/dashboard'/>
 }
 

@@ -7,7 +7,7 @@ const Register = () => {
 
 const dispatch = useDispatch();
 const msgs = useSelector(state=>state.alert);
-const auth = useSelector(state=>state.auth);
+const { isAuthenticated} = useSelector(state=>state.auth);
 
 const [formData, setFormData] = useState({
     name: '',
@@ -40,7 +40,7 @@ const onSubmit = async(e)=>{
 const alert = msgs.map(msg =>(<div key={msg.id} className={`alert alert-${msg.alertType}`}>{msg.msg}</div>));
 let lastItem = alert.length-1;
 
-if(auth.isAuthenticated){
+if(isAuthenticated){
     return <Redirect to='/dashboard'/>
 }
 
