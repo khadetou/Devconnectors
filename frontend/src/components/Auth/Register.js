@@ -1,5 +1,5 @@
 import React, { Fragment, useState } from 'react';
-import {Link} from 'react-router-dom';
+import {Link, Redirect} from 'react-router-dom';
 import {useDispatch, useSelector} from 'react-redux';
 import {setAlert} from '../../actions/alertAction';
 import {register} from '../../actions/authActions';
@@ -7,9 +7,7 @@ const Register = () => {
 
 const dispatch = useDispatch();
 const msgs = useSelector(state=>state.alert);
-const auth = useSelector(state =>state.auth);
-
-
+const auth = useSelector(state=>state.auth);
 
 const [formData, setFormData] = useState({
     name: '',
@@ -39,8 +37,12 @@ const onSubmit = async(e)=>{
     }
 }
   
-        const alert = msgs.map(msg =>(<div key={msg.id} className={`alert alert-${msg.alertType}`}>{msg.msg}</div>));
-         let lastItem = alert.length-1;
+const alert = msgs.map(msg =>(<div key={msg.id} className={`alert alert-${msg.alertType}`}>{msg.msg}</div>));
+let lastItem = alert.length-1;
+
+if(auth.isAuthenticated){
+    return <Redirect to='/dashboard'/>
+}
 
     return (
         <Fragment>
