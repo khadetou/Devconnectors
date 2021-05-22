@@ -47,7 +47,7 @@ const Profile = ({match}) => {
                     {profile.education.length > 0 ? 
                     (<Fragment>
                         {profile.education.map((edu)=>(
-                            <ProfileExperience key={edu._id} experience ={edu} />
+                            <ProfileEducation key={edu._id} education ={edu} />
                         ))}
                     </Fragment>): 
                     (<h4>No experience credentials</h4>)}
