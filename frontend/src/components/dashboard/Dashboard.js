@@ -6,10 +6,12 @@ import {getCurrentProfile} from '../../actions/profileAction';
 import { Fragment } from 'react';
 import { FaUser } from "react-icons/fa";
 import { Link } from 'react-router-dom';
+import Experience from './Experience';
+import Education from './Education';
 
 const Dashboard = () => {
     const dispatch = useDispatch();
-    const {isAuthenticated, user}= useSelector(state=>state.auth);
+    const { user}= useSelector(state=>state.auth);
     const {profile, loading} = useSelector(state=>state.profile);
 
 
@@ -36,6 +38,8 @@ const Dashboard = () => {
                 {profile !== null? 
                     (<Fragment>
                         <DashboardActions/>
+                        <Education/>
+                        <Experience/>
                     </Fragment>):
                     (<Fragment>
                         <p>You have not yet setup a profile please add some info</p>
