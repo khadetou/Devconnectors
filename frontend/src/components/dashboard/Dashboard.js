@@ -2,7 +2,7 @@ import React, {useEffect} from 'react';
 import Spinner from '../layout/Spinner';
 import DashboardActions from './DashboardActions';
 import {useDispatch, useSelector} from 'react-redux';
-import {getCurrentProfile} from '../../actions/profileAction';
+import {deleteAccount, getCurrentProfile} from '../../actions/profileAction';
 import { Fragment } from 'react';
 import { FaUser } from "react-icons/fa";
 import { Link } from 'react-router-dom';
@@ -24,6 +24,10 @@ const Dashboard = () => {
     const msgs  = useSelector(state=>state.alert)
     const alert = msgs.map(msg =>(<div key={msg.id} className={`alert alert-${msg.alertType}`}>{msg.msg}</div>));
 
+    const DeleteAccount =()=>{
+        dispatch(deleteAccount());
+    }
+
     return (
         <section className="container">
             {alert}
@@ -40,6 +44,11 @@ const Dashboard = () => {
                         <DashboardActions/>
                         <Education/>
                         <Experience/>
+                        <div className="my-2">
+                            <button onClick={()=>DeleteAccount()} className="btn btn-danger">
+                                <i className="fas fa-user-minus"></i> Delete my account 
+                            </button>
+                        </div>
                     </Fragment>):
                     (<Fragment>
                         <p>You have not yet setup a profile please add some info</p>

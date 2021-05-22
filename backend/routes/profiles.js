@@ -1,10 +1,11 @@
 import express from 'express';
 import auth from '../middleware/auth.js';
 import asyncHandler from 'express-async-handler';
-import Profile from '../models/Profile.js';
-import User from '../models/User.js';
 import {check, validationResult} from 'express-validator';
 import request from 'request';
+import Profile from '../models/Profile.js';
+import User from '../models/User.js';
+import Post from '../models/Post.js';
 
 //INITIALIZING OUR ROUTER
 const router = express.Router();
@@ -110,11 +111,14 @@ router.get('/user/:user_id', asyncHandler(async (req, res)=>{
 
 
 
-//@route  DELETE/api/Profile
+//@route  DELETE/api/Profiles
 //@desc   Delete profile, user & post
 //@access Public
 
 router.delete('/', auth, asyncHandler(async (req, res)=>{
+
+    //Remove post
+    await Post.deleteMany({user: req.user.id});
 
     //Remove profile
     await Profile.findOneAndRemove({user: req.user.id});

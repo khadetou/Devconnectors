@@ -2,7 +2,7 @@ import axios from 'axios';
 import { setAlert }  from './alertAction';
 
 
-import { CLEAR_PROFILE, GET_PROFILE, PROFILE_ERROR, UPDATE_PROFILE } from './types';
+import { CLEAR_PROFILE, GET_PROFILE, PROFILE_ERROR, UPDATE_PROFILE,ACCOUNT_DELETED } from './types';
 
 //GET CURRENT USERS PROFILE
 export const getCurrentProfile = () => async dispatch =>{
@@ -131,5 +131,69 @@ export const addEducation = (formData, history)=> async dispatch=>{
             preload: {msg: error.response.data.message, status: error.response.status}
         })
     }
+
+}
+
+//DELETE Experience
+
+export const deleteExperience = (id) => async dispatch=>{
+
+    try {
+        const {data} = await axios.delete(`/api/profiles/experience/${id}`)
+        dispatch({
+            type: UPDATE_PROFILE,
+            preload: data
+        })
+
+        dispatch(setAlert( 'Experience deleted', 'danger',6000));
+
+    } catch (error) {
+         dispatch({
+            type: PROFILE_ERROR,
+            preload: {msg: error.response.data.message, status: error.response.status}
+        })
+    }
+
+}
+
+//DELETE Education
+export const deleteEducation = (id) => async dispatch=>{
+
+    try {
+        const {data} = await axios.delete(`/api/profiles/education/${id}`)
+        dispatch({
+            type: UPDATE_PROFILE,
+            preload: data
+        })
+
+        dispatch(setAlert( 'Education deleted', 'danger',6000));
+
+    } catch (error) {
+         dispatch({
+            type: PROFILE_ERROR,
+            preload: {msg: error.response.data.message, status: error.response.status}
+        })
+    }
+
+}
+
+//DELETE ACCOUNT
+export const deleteAccount = () => async dispatch=>{
+
+  if(window.confirm("Are you sure ? This cannot be undone!")){
+    try {
+        await axios.delete('/api/profiles')
+        dispatch({type: CLEAR_PROFILE})
+        dispatch({type: ACCOUNT_DELETED})
+
+        dispatch(setAlert( 'Your account has been permenently deleted', 'danger',6000));
+
+    } catch (error) {
+         dispatch({
+            type: PROFILE_ERROR,
+            preload: {msg: error.response.data.message, status: error.response.status}
+        })
+    }
+  }
 
 }

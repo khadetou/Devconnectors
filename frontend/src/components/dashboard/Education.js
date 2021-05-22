@@ -1,11 +1,19 @@
 import React, { Fragment } from 'react'
 import Moment from 'react-moment';
-import {useSelector} from 'react-redux';
-const Education = () => {
-    const {education} = useSelector(state=>state.profile.profile);
+import {useSelector, useDispatch} from 'react-redux';
+import {deleteEducation} from '../../actions/profileAction';
 
-    const educations = education.map((edu)=>(
-        <tbody>
+const Education = () => {
+
+    const {education} = useSelector(state=>state.profile.profile);
+    const dispatch = useDispatch();
+    
+  const  Delete = (e)=>{
+    dispatch(deleteEducation(e))
+  }
+
+    const educations = education.map((edu, idx)=>(
+        <tbody key={idx}>
         <tr>
           <td>{edu.school}</td>
           <td className="hide-sm">{edu.degree}</td>
@@ -13,7 +21,7 @@ const Education = () => {
           <Moment format="YYYY/MM/DD">{edu.from}</Moment> - {edu.to !==null ? (<Moment format="YYYY/MM/DD">{edu.to}</Moment>): ' Now'}
           </td>
           <td>
-            <button className="btn btn-danger">
+            <button onClick={()=>Delete(edu._id)} className="btn btn-danger">
               Delete
             </button>
           </td>
