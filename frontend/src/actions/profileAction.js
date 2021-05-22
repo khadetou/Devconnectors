@@ -2,7 +2,7 @@ import axios from 'axios';
 import { setAlert }  from './alertAction';
 
 
-import { CLEAR_PROFILE, GET_PROFILE, PROFILE_ERROR, UPDATE_PROFILE,ACCOUNT_DELETED } from './types';
+import { CLEAR_PROFILE, GET_PROFILE, PROFILE_ERROR, UPDATE_PROFILE,ACCOUNT_DELETED, GET_PROFILES, GET_REPOS } from './types';
 
 //GET CURRENT USERS PROFILE
 export const getCurrentProfile = () => async dispatch =>{
@@ -20,6 +20,59 @@ export const getCurrentProfile = () => async dispatch =>{
         })
     }
 }
+
+//GET ALL PROFILES
+export const getAllProfiles = () => async dispatch =>{
+        dispatch({type: CLEAR_PROFILE});
+    try {
+        const {data} = await axios.get('/api/profiles');
+        dispatch({
+            type: GET_PROFILES,
+            preload: data
+        })
+    } catch (error) {
+        dispatch({
+            type: PROFILE_ERROR,
+            preload: {msg: error.response.data.msg, status: error.response.status}
+        })
+    }
+}
+
+//GET PROFILE BY ID
+export const getProfileById = (userId) => async dispatch =>{
+    dispatch({type: CLEAR_PROFILE});
+try {
+    const {data} = await axios.get(`/api/profiles/user/${userId}`);
+    dispatch({
+        type: GET_PROFILE,
+        preload: data
+    })
+} catch (error) {
+    dispatch({
+        type: PROFILE_ERROR,
+        preload: {msg: error.response.data.msg, status: error.response.status}
+    })
+}
+}
+
+
+//GET GITHUB REPOS
+export const getGithubRepos = (username) => async dispatch =>{
+    dispatch({type: CLEAR_PROFILE});
+try {
+    const {data} = await axios.get(`/api/profiles/github/${username}`);
+    dispatch({
+        type: GET_REPOS,
+        preload: data
+    })
+} catch (error) {
+    dispatch({
+        type: PROFILE_ERROR,
+        preload: {msg: error.response.data.msg, status: error.response.status}
+    })
+}
+}
+
 //CLEAR PROFILE 
 export const clearProfile = ()=> dispatch=>{
     dispatch({
