@@ -2,7 +2,7 @@ import axios from 'axios';
 import { setAlert }  from './alertAction';
 
 
-import { CLEAR_PROFILE, GET_PROFILE, PROFILE_ERROR } from './types';
+import { CLEAR_PROFILE, GET_PROFILE, PROFILE_ERROR, UPDATE_PROFILE } from './types';
 
 //GET CURRENT USERS PROFILE
 export const getCurrentProfile = () => async dispatch =>{
@@ -29,7 +29,7 @@ export const clearProfile = ()=> dispatch=>{
 
 //CREATE OR UPDATE 
 export const createProfile = (formData, history, edit= false)=> async dispatch=>{
-    // console.log(history, formData)
+   
     try {
         const config ={
             headers:{
@@ -60,4 +60,76 @@ export const createProfile = (formData, history, edit= false)=> async dispatch=>
             preload: {msg: error.response.data.message, status: error.response.status}
         })
     }
+}
+
+//ADD EXPERIENCE    
+export const addExperience = (formData, history)=> async dispatch=>{
+
+    try {
+        const config ={
+            headers:{
+                'Content-Type': 'application/json'
+            }
+        }
+
+        const {data} = await axios.put('/api/profiles/experience', formData, config);
+    
+
+        dispatch({
+            type: UPDATE_PROFILE,
+            preload: data
+        })
+        dispatch(setAlert( 'Experience added', 'success',6000));
+
+            history.push('/dashboard');
+    
+
+    } catch (error) {
+       
+        if(error){
+           dispatch(setAlert(error.response.data.message, 'danger', 6000));
+        }
+        dispatch({
+            type: PROFILE_ERROR,
+            preload: {msg: error.response.data.message, status: error.response.status}
+        })
+    }
+
+}
+
+
+//ADD EDUCATION   
+export const addEducation = (formData, history)=> async dispatch=>{
+
+    try {
+        const config ={
+            headers:{
+                'Content-Type': 'application/json'
+            }
+        }
+
+        const {data} = await axios.put('/api/profiles/education', formData, config);
+    
+
+        dispatch({
+            type: UPDATE_PROFILE,
+            preload: data
+        })
+        dispatch(setAlert( 'Education added', 'success',6000));
+
+       
+            history.push('/dashboard');
+   
+
+    } catch (error) {
+       
+        if(error){
+           dispatch(setAlert(error.response.data.message, 'danger', 6000));
+        }
+        dispatch({
+            type: PROFILE_ERROR,
+            preload: {msg: error.response.data.message, status: error.response.status}
+        })
+    }
+
 }
