@@ -17,20 +17,24 @@ const Navbar = () => {
     return (
     <nav className="navbar bg-dark">
             <h1>
-                <Link to="/"><i className="fas fa-code"></i> DevConnector</Link>
+                <Link to="/">
+                    <i className="fas fa-code"></i> DevConnector
+                </Link>
             </h1>
         {!loading && (!isAuthenticated? (
         <ul>
-            <li><Link to="#!"> Developers </Link></li>
+            <li><Link to="/profiles"> 
+                <FaUser className="a-icon"/>
+                Developers </Link></li>
             <li><Link to="/register">Register</Link></li>
             <li><Link to="/login">Login</Link></li>
         </ul>
         ):
         (
         <ul>
-            <li><Link to="#!">
+            <li><Link to="/profiles">
                 <FaUser className="a-icon"/>
-                Developers
+                    Developers
                 </Link></li>
             <li><Link to="/dashboard">dashboard</Link></li>
             <li onClick={onLogout}>
