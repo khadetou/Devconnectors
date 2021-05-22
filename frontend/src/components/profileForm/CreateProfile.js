@@ -1,7 +1,14 @@
 import React, { Fragment, useState } from 'react';
 import {useSelector, useDispatch} from 'react-redux';
+import {createProfile} from '../../actions/profileAction';
+
+import { Redirect, withRouter, useHistory} from 'react-router-dom';
+
 
 const CreateProfile = () => {
+  
+    const {isAuthenticated} = useSelector(state=>state.auth);
+   
     const [formData, setFormdata] = useState({
         company: '',
         website: '',
@@ -16,17 +23,33 @@ const CreateProfile = () => {
         youtube: '',
         instagram: ''
     });
-
+    const history = useHistory();
     const [displaySocialInput, setDisplaySocialInput] = useState(false);
     
     const { company,website,location,status,skills,githubusername,bio,twitter,facebook,linkedin,youtube, instagram }= formData;
 
     const onChange = (e)=>{
-        setFormdata({...formData,[e.target.name]: [e.target.value]});
+        setFormdata({...formData, [e.target.name]:e.target.value});
+    }
+ 
+    
+   
+    const dispatch = useDispatch();
+    const msgs  = useSelector(state=>state.alert)
+    const alert = msgs.map(msg =>(<div key={msg.id} className={`alert alert-${msg.alertType}`}>{msg.msg}</div>));
+
+    const onSubmit = (e)=>{
+        e.preventDefault();
+        dispatch(createProfile(formData, history))
+    }
+
+    if(!isAuthenticated){
+        return (<Redirect to='/login'/>)
     }
 
     return (
     <section className="container">
+        {alert}
       <h1 className="large text-primary">
         Create Your Profile
       </h1>
@@ -35,7 +58,7 @@ const CreateProfile = () => {
         profile stand out
       </p>
       <small>* = required field</small>
-      <form className="form">
+      <form className="form" onSubmit={(e)=>onSubmit(e)}>
         <div className="form-group">
           <select name="status" value={status} onChange={(e)=>onChange(e)}>
             <option value="0">* Select Professional Status</option>
@@ -137,4 +160,4 @@ const CreateProfile = () => {
     )
 }
 
-export default CreateProfile;
+export default withRouter(CreateProfile);

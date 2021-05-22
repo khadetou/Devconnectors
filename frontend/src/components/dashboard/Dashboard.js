@@ -18,8 +18,13 @@ const Dashboard = () => {
 
     },[dispatch])
 
+    const msgs  = useSelector(state=>state.alert)
+    const alert = msgs.map(msg =>(<div key={msg.id} className={`alert alert-${msg.alertType}`}>{msg.msg}</div>));
+
     return (
         <section className="container">
+            {alert}
+            
             {loading && profile === null ? 
             (<Spinner/>):
             ( <Fragment>
