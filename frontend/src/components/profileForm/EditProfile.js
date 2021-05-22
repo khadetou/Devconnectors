@@ -1,11 +1,15 @@
-import React, { Fragment, useState } from 'react';
+import React, { Fragment, useState, useEffect } from 'react';
 import {useSelector, useDispatch} from 'react-redux';
-import {createProfile} from '../../actions/profileAction';
+import {createProfile, getCurrentProfile} from '../../actions/profileAction';
 
 import { Redirect, withRouter, useHistory, Link} from 'react-router-dom';
 
 
-const CreateProfile = () => {
+const EditProfile = () => {
+
+    const dispatch = useDispatch();
+    const {profile, loading} = useSelector(state=>state.profile);
+    const msgs  = useSelector(state=>state.alert)
   
     const {isAuthenticated} = useSelector(state=>state.auth);
    
@@ -24,28 +28,47 @@ const CreateProfile = () => {
         instagram: ''
     });
     const history = useHistory();
+
     const [displaySocialInput, setDisplaySocialInput] = useState(false);
+
+    useEffect(()=>{
+        dispatch(getCurrentProfile);
+
+        setFormdata({
+            company: loading|| !profile.company ? '': profile.company,
+            website: loading|| !profile.website ? '': profile.website,
+            location: loading|| !profile.location ? '': profile.location,
+            status: loading|| !profile.status ? '': profile.status,
+            skills: loading|| !profile.skills ? '': profile.skills.join(','),
+            githubusername: loading|| !profile.githubusername ? '': profile.githubusername,
+            bio: loading|| !profile.bio ? '': profile.bio,
+            twitter: loading|| !profile.social ? '': profile.social.twitter,
+            facebook: loading|| !profile.social? '': profile.social.facebook,
+            linkedin: loading|| !profile.social ? '': profile.social.linkedin,
+            youtube: loading|| !profile.social ? '': profile.social.youtube,
+            instagram: loading|| !profile.social ? '': profile.social.instagram
+        })
+
+    },[dispatch, loading, profile.bio, profile.company, profile.githubusername, profile.location, profile.skills, profile.social, profile.status, profile.website])
     
     const { company,website,location,status,skills,githubusername,bio,twitter,facebook,linkedin,youtube, instagram }= formData;
 
     const onChange = (e)=>{
         setFormdata({...formData, [e.target.name]:e.target.value});
     }
- 
-    
-   
-    const dispatch = useDispatch();
-    const msgs  = useSelector(state=>state.alert)
-    const alert = msgs.map(msg =>(<div key={msg.id} className={`alert alert-${msg.alertType}`}>{msg.msg}</div>));
 
     const onSubmit = (e)=>{
         e.preventDefault();
-        dispatch(createProfile(formData, history))
+        dispatch(createProfile(formData, history, true))
     }
 
     if(!isAuthenticated){
         return (<Redirect to='/login'/>)
     }
+
+
+    const alert = msgs.map(msg =>(<div key={msg.id} className={`alert alert-${msg.alertType}`}>{msg.msg}</div>));
+
 
     return (
     <section className="container">
@@ -160,4 +183,4 @@ const CreateProfile = () => {
     )
 }
 
-export default withRouter(CreateProfile);
+export default withRouter(EditProfile);
