@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { GET_POSTS, POST_ERROR } from './types';
+import { GET_POSTS, POST_ERROR, UPDATE_LIKES } from './types';
 import {setAlert} from './alertAction';
 //GET ALL POSTS
 export const getPosts = ()=> async dispatch=>{
@@ -9,6 +9,39 @@ export const getPosts = ()=> async dispatch=>{
         dispatch({
             type: GET_POSTS,
             preload: data
+        })
+    } catch (error) {
+        dispatch({
+            type: POST_ERROR,
+            preload: {msg:error.response, statusCode: error.response.statusCode}
+        })
+    }
+}
+
+//ADD LIKES
+export const addLikes = (id)=> async dispatch=>{
+    try {
+        const {data} = await axios.put(`/api/posts/likes/${id}`);
+        dispatch({
+            type: UPDATE_LIKES,
+            preload: {id, likes:data}
+        })
+    } catch (error) {
+        dispatch({
+            type: POST_ERROR,
+            preload: {msg:error.response, statusCode: error.response.statusCode}
+        })
+    }
+}
+
+//REMOVE LIKES
+export const removeLikes = (id)=> async dispatch=>{
+
+    try {
+        const {data} = await axios.put(`/api/posts/unlikes/${id}`);
+        dispatch({
+            type: UPDATE_LIKES,
+            preload: {id, likes:data}
         })
     } catch (error) {
         dispatch({
