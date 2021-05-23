@@ -36,7 +36,7 @@ const Navbar = () => {
                 <FaUser className="a-icon"/>
                     Developers
                 </Link></li>
-            <li><Link to="/post">Posts</Link></li>
+            <li><Link to="/posts">Posts</Link></li>
             <li><Link to="/dashboard">Dashboard</Link></li>
             <li onClick={onLogout}>
                 <Link to="/">

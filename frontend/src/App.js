@@ -13,7 +13,8 @@ import AddExperience from './components/profileForm/AddExperience';
 import AddEducation from './components/profileForm/AddEducation';
 import Profiles from './components/profiles/Profiles';
 import Profile from './components/profile/Profile';
-import Post from './components/posts/Post';
+import Posts from './components/posts/Posts';
+import Post from './components/post/Post';
 import {loadUser} from './actions/authActions';
 import setAuthToken from './utils/setAuthToken';
 import {useDispatch} from 'react-redux';
@@ -39,11 +40,12 @@ const App = ()=> {
          <Route exact path="/profiles" component={Profiles}/>
          <Route exact path="/profile/:_id" component={Profile}/>
          <PrivateRoute exact path="/dashboard" component={Dashboard}/>
-         <Route exact path="/create-profile" component={CreateProfile}/>
-         <Route exact path="/edit-profile" component={EditProfile}/>
-         <Route exact path="/add-education" component={AddEducation}/>
-         <Route exact path="/add-experience" component={AddExperience}/>
-         <Route exact path="/post" component={Post}/>
+         <PrivateRoute exact path="/create-profile" component={CreateProfile}/>
+         <PrivateRoute exact path="/edit-profile" component={EditProfile}/>
+         <PrivateRoute exact path="/add-education" component={AddEducation}/>
+         <PrivateRoute exact path="/add-experience" component={AddExperience}/>
+         <PrivateRoute exact path="/posts" component={Posts}/>
+         <PrivateRoute exact path="/posts/:id" component={Post}/>
       </Switch>
     </Fragment>)
 }

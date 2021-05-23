@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { ADD_POSTS, DELETE_POST, GET_POSTS, POST_ERROR, UPDATE_LIKES } from './types';
+import { ADD_POSTS, DELETE_POST, GET_POST, GET_POSTS, POST_ERROR, UPDATE_LIKES } from './types';
 import {setAlert} from './alertAction';
 
 //GET ALL POSTS
@@ -19,6 +19,23 @@ export const getPosts = ()=> async dispatch=>{
     }
 }
 
+
+//GET ONE POST
+export const getPost = (id)=> async dispatch=>{
+
+    try {
+        const {data} = await axios.get(`/api/posts/${id}`);
+        dispatch({
+            type: GET_POST,
+            preload: data
+        })
+    } catch (error) {
+        dispatch({
+            type: POST_ERROR,
+            preload: {msg:error.response, statusCode: error.response.statusCode}
+        })
+    }
+}
 //ADD LIKES
 export const addLikes = (id)=> async dispatch=>{
     try {

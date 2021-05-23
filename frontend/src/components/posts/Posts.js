@@ -4,7 +4,7 @@ import {getPosts} from '../../actions/postAction';
 import PostForm from './PostForm';
 import Spinner from '../layout/Spinner';
 import PostItem from './/PostItem';
-const Post = () => {
+const Posts = () => {
     const dispatch = useDispatch();
     const {posts, loading} = useSelector(state => state.post)
     const alert = useSelector(state=>state.alert);
@@ -34,4 +34,4 @@ const Post = () => {
     )
 }
 
-export default Post
+export default Posts;
