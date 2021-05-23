@@ -1,4 +1,5 @@
-import { ADD_POSTS, DELETE_POST, GET_POST, GET_POSTS, POST_ERROR, UPDATE_LIKES } from '../actions/types';
+import { post } from 'request';
+import { ADD_COMMENT, ADD_POSTS, DELETE_POST, GET_POST, GET_POSTS, POST_ERROR, REMOVE_COMMENT, UPDATE_LIKES } from '../actions/types';
 
 const initialState = {
     posts :[],
@@ -46,7 +47,21 @@ export default (state = initialState, action)=>{
                 posts: state.posts.map((post)=>post._id === preload.id ? {...post, likes: preload.likes} : post),
                 loading: false
             }
-    
+        case ADD_COMMENT:{
+            return{
+                ...state,
+                post: {...state.post, comments: preload},
+                loading: false
+            }
+        }
+        case REMOVE_COMMENT:
+            return{
+                ...state,
+                post: {
+                    ...state.post,
+                    comments: state.post.comments.filter((comment)=>comment._id !== preload)},
+                loading: false
+            }
         default:
            return state;
     }

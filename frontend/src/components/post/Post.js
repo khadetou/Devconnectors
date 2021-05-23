@@ -4,6 +4,7 @@ import Spinner from '../layout/Spinner';
 import {getPost} from '../../actions/postAction';
 import PostItem from '../posts/PostItem';
 import {Link} from  'react-router-dom';
+import CommentForm from './CommentForm';
 const Post = ({match}) => {
     const dispatch = useDispatch();
     const {post, loading} = useSelector(state=>state.post)
@@ -17,6 +18,7 @@ const Post = ({match}) => {
            <Fragment>
                <Link to="/posts" className="btn">Back to posts</Link>
                <PostItem post={post} showActions={false}/>
+               <CommentForm postId={post._id}/>
            </Fragment>
            }
         </section>
