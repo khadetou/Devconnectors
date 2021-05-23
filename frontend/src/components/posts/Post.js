@@ -6,12 +6,16 @@ import PostItem from './/PostItem';
 const Post = () => {
     const dispatch = useDispatch();
     const {posts, loading} = useSelector(state => state.post)
-
+    const alert = useSelector(state=>state.alert);
     useEffect(()=>{
         dispatch(getPosts())
     },[dispatch])
+    const alerts = alert.map((al, idx)=>(
+        <div key={idx} className={`alert alert-${al.alertType}`}>{al.msg}</div>
+    ));
     return (
         <section className="container">
+                 {alerts}
             {loading ? <Spinner/> : 
             (<Fragment>
                <h1 className="text-large text-primary">Posts</h1>

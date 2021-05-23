@@ -2,7 +2,7 @@ import React from 'react';
 import {Link} from 'react-router-dom';
 import Moment from 'react-moment';
 import {useSelector, useDispatch} from 'react-redux';
-import {removeLikes,addLikes} from '../../actions/postAction';
+import {removeLikes,addLikes, deletePost} from '../../actions/postAction';
 const PostItem = ({post:{ _id, text, name, avatar, user, likes, comments, date}}) => {
     const auth = useSelector(state=>state.auth);
     const dispatch = useDispatch();
@@ -13,8 +13,14 @@ const PostItem = ({post:{ _id, text, name, avatar, user, likes, comments, date}}
     const like = ()=>{
         dispatch(addLikes(_id))
     }
+    const postDelete = ()=>{
+        dispatch(deletePost(_id))
+    }
+  
+
     return (
         <div className="post bg-white p-1 my-1">
+          
             <div>
                 <a href="profile.html">
                     <img
@@ -46,6 +52,7 @@ const PostItem = ({post:{ _id, text, name, avatar, user, likes, comments, date}}
               (<button      
                 type="button"
                 className="btn btn-danger"
+                onClick={()=>postDelete()}
                 >
                     <i className="fas fa-times"></i>
                 </button>)}
