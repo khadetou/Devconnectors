@@ -1,4 +1,3 @@
-import { post } from 'request';
 import { ADD_COMMENT, ADD_POSTS, DELETE_POST, GET_POST, GET_POSTS, POST_ERROR, REMOVE_COMMENT, UPDATE_LIKES } from '../actions/types';
 
 const initialState = {

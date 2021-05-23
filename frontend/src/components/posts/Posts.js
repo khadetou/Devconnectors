@@ -14,9 +14,10 @@ const Posts = () => {
     const alerts = alert.map((al, idx)=>(
         <div key={idx} className={`alert alert-${al.alertType}`}>{al.msg}</div>
     ));
+    let lastItem = alerts.length-1;
     return (
         <section className="container">
-                 {alerts}
+                 {alerts[lastItem]}
             {loading ? <Spinner/> : 
             (<Fragment>
                <h1 className="text-large text-primary">Posts</h1>
