@@ -36,7 +36,8 @@ const Navbar = () => {
                 <FaUser className="a-icon"/>
                     Developers
                 </Link></li>
-            <li><Link to="/dashboard">dashboard</Link></li>
+            <li><Link to="/post">Posts</Link></li>
+            <li><Link to="/dashboard">Dashboard</Link></li>
             <li onClick={onLogout}>
                 <Link to="/">
                     <FaSignOutAlt className="a-icon"/>

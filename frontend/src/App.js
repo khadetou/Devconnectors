@@ -13,6 +13,7 @@ import AddExperience from './components/profileForm/AddExperience';
 import AddEducation from './components/profileForm/AddEducation';
 import Profiles from './components/profiles/Profiles';
 import Profile from './components/profile/Profile';
+import Post from './components/posts/Post';
 import {loadUser} from './actions/authActions';
 import setAuthToken from './utils/setAuthToken';
 import {useDispatch} from 'react-redux';
@@ -42,6 +43,7 @@ const App = ()=> {
          <Route exact path="/edit-profile" component={EditProfile}/>
          <Route exact path="/add-education" component={AddEducation}/>
          <Route exact path="/add-experience" component={AddExperience}/>
+         <Route exact path="/post" component={Post}/>
       </Switch>
     </Fragment>)
 }
