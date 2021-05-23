@@ -4,6 +4,9 @@
   "type": "module",
   "description": "",
   "main": "server.js",
+  "engines": {
+    "node": "16.x"
+  },
   "scripts": {
     "start": "node backend/server",
     "server": "nodemon backend/server",
