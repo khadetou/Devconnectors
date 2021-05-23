@@ -7,7 +7,7 @@ import profiles from './routes/profiles.js';
 import posts from './routes/posts.js';
 import auth from './routes/auth.js';
 import {notFound, errorHandler} from './middleware/errorMiddleware.js';
-
+import path from 'path';
 
  //DOTENV AND EXPRESS CONFIG
 const app = express();
@@ -16,13 +16,6 @@ const {PORT, NODE_ENV} = process.env;
 
  //CONNECTION TO DATABASE
 connectDB();
-
-
-
-//ROOT BACKEND PAGE
-app.get('/', (req, res) => {
-    res.send('API Running ...')
-});
 
 
 //INIT MIDDLEWARE BY DEFAULT IMPLEMENTED IN EXPRESS ALLOW US
@@ -36,6 +29,17 @@ app.use('/api/users', users)
 app.use('/api/profiles', profiles)
 app.use('/api/posts', posts)
 app.use('/api/auth', auth)
+
+
+//SERVE STATIC ASSET IN PRODUCTION
+if(NODE_ENV === 'production'){
+    //SET STATIC FOLDER
+    app.use(express.static('frontend/build'));
+
+    app.get('*',(req, res)=>{
+        res.sendFile(path.resolve(__dirname, 'frontend', 'build', 'index.html'))
+    })
+}
 
 app.use(notFound);
 app.use(errorHandler);
