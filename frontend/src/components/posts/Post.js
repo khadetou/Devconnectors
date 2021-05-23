@@ -1,6 +1,7 @@
 import React, {useEffect,Fragment} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {getPosts} from '../../actions/postAction';
+import PostForm from './PostForm';
 import Spinner from '../layout/Spinner';
 import PostItem from './/PostItem';
 const Post = () => {
@@ -22,7 +23,7 @@ const Post = () => {
                <p className="lead">
                    <i className="fas fa-user"></i> Welcome to the community
                </p>
-               {/* Post form  */}
+                <PostForm/>
                <div className="posts">
                    {posts !==null && posts.map((post,idx)=>(
                        <PostItem key={idx} post={post}/>

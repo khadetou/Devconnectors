@@ -1,4 +1,4 @@
-import { DELETE_POST, GET_POST, GET_POSTS, POST_ERROR, UPDATE_LIKES } from '../actions/types';
+import { ADD_POSTS, DELETE_POST, GET_POST, GET_POSTS, POST_ERROR, UPDATE_LIKES } from '../actions/types';
 
 const initialState = {
     posts :[],
@@ -22,6 +22,12 @@ export default (state = initialState, action)=>{
                 ...state,
                 posts: preload,
                 loading: null
+            }
+        case ADD_POSTS:
+            return{
+                ...state,
+                posts: [preload, ...state.posts],
+                loading: false
             }
         case DELETE_POST:
             return{
